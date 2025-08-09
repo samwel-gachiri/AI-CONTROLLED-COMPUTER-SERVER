@@ -1,0 +1,9 @@
+{
+  "app_secret": "BLGS2LIKCjDhtunD0nuds3SmyNHrFfC#USpoBtW4ZwvYa^I#yqw6P@sBh!iX&ciQ",
+  "flask_secret": "@gCju%i!mgFz#!AnKUb^M!7LrdPfeiFH",
+  "admin_password": "SC9!x$8!aZA5wHFJ",
+  "database_url": "sqlite:///auth_system.db",
+  "server_host": "localhost",
+  "server_port": 5000,
+  "debug": false
+}

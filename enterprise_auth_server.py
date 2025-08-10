@@ -18,6 +18,14 @@ import os
 import bcrypt
 from functools import wraps
 
+# Import field protection API
+try:
+    from field_protection_api import field_protection_bp, init_field_protection_tables
+    FIELD_PROTECTION_AVAILABLE = True
+except ImportError:
+    print("⚠️ Field protection API not available")
+    FIELD_PROTECTION_AVAILABLE = False
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-here')
 # Configure database path - handle both running from root and server directory
@@ -63,6 +71,13 @@ CORS(app,
      allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
      supports_credentials=True)
+
+# Register field protection blueprint
+if FIELD_PROTECTION_AVAILABLE:
+    app.register_blueprint(field_protection_bp, url_prefix='/api')
+    print("✅ Field protection API registered")
+else:
+    print("⚠️ Field protection API not registered - endpoints will return 404")
 
 # App secret for HMAC signatures (must match client)
 APP_SECRET = os.getenv('APP_SECRET', 'your-app-secret-key-here')
@@ -923,6 +938,14 @@ if __name__ == '__main__':
     # Create tables
     with app.app_context():
         db.create_all()
+        
+        # Initialize field protection tables
+        if FIELD_PROTECTION_AVAILABLE:
+            try:
+                init_field_protection_tables()
+                print("✅ Field protection tables initialized")
+            except Exception as e:
+                print(f"❌ Error initializing field protection tables: {e}")
         
         # Create sample organization if none exist
         if Organization.query.count() == 0:

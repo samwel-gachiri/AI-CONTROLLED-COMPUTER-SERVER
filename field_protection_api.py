@@ -373,6 +373,12 @@ def approve_request():
     if not request_id:
         return jsonify({'success': False, 'error': 'request_id is required'}), 400
     
+    # Convert duration_hours to float if it's a string
+    try:
+        duration_hours = float(duration_hours)
+    except (ValueError, TypeError):
+        return jsonify({'success': False, 'error': 'duration_hours must be a valid number'}), 400
+    
     try:
         conn = get_db_connection()
         cursor = conn.cursor()

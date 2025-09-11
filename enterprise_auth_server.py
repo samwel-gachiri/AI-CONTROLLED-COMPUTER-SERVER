@@ -1,3 +1,8 @@
+# --- Ping Controller ---
+@app.route('/api/ping', methods=['GET'])
+def ping():
+    """Health check endpoint that never fails."""
+    return jsonify({"success": True, "message": "pong"}), 200
 #!/usr/bin/env python3
 """
 Enterprise Authentication Server API

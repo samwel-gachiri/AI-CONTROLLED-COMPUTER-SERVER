@@ -1,0 +1,13 @@
+# Server dependencies only (optimized)
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+SQLAlchemy
+bcrypt
+requests
+python-dotenv
+# Optional: database drivers (uncomment if needed for DB features)
+# mysql-connector-python
+# psycopg2
+# pyodbc
+# cx_Oracle

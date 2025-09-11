@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 #!/usr/bin/env python3
 """
 Server entrypoint composing enterprise auth endpoints and updates endpoint.
@@ -5,15 +7,15 @@ Server entrypoint composing enterprise auth endpoints and updates endpoint.
 Run: python -m server.main [port]
 """
 
+import os
+import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 from typing import Any, Dict
 import json
-import sys
 
 from .updates import handle_updates_route
 
-#!/usr/bin/env python3
 """
 Unified Server Entry Point
 
@@ -22,9 +24,9 @@ with the updates API so the desktop client has both authentication and updater
 endpoints available on the same base URL.
 
 - Reuses the Flask app from server/enterprise_auth_server.py to preserve all
-  existing authentication, user, sharing, and admin APIs.
+    existing authentication, user, sharing, and admin APIs.
 - Registers the updates blueprint from server/updates.py to serve
-  GET /api/app/version used by the desktop AutoUpdater.
+    GET /api/app/version used by the desktop AutoUpdater.
 
 Run:
 python server/main.py  (defaults to host=0.0.0.0, port=5000)
@@ -33,10 +35,6 @@ Environment:
 - PORT: override the port
 - HOST: override the host
 """
-from __future__ import annotations
-
-import os
-import sys
 
 class SimpleRouterHandler(BaseHTTPRequestHandler):
     """Minimal HTTP server for local development.

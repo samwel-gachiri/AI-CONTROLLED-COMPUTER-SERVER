@@ -13,6 +13,30 @@ import sys
 
 from .updates import handle_updates_route
 
+#!/usr/bin/env python3
+"""
+Unified Server Entry Point
+
+This file starts the production server by composing the enterprise auth app
+with the updates API so the desktop client has both authentication and updater
+endpoints available on the same base URL.
+
+- Reuses the Flask app from server/enterprise_auth_server.py to preserve all
+  existing authentication, user, sharing, and admin APIs.
+- Registers the updates blueprint from server/updates.py to serve
+  GET /api/app/version used by the desktop AutoUpdater.
+
+Run:
+python server/main.py  (defaults to host=0.0.0.0, port=5000)
+
+Environment:
+- PORT: override the port
+- HOST: override the host
+"""
+from __future__ import annotations
+
+import os
+import sys
 
 class SimpleRouterHandler(BaseHTTPRequestHandler):
     """Minimal HTTP server for local development.
@@ -76,30 +100,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-#!/usr/bin/env python3
-"""
-Unified Server Entry Point
-
-This file starts the production server by composing the enterprise auth app
-with the updates API so the desktop client has both authentication and updater
-endpoints available on the same base URL.
-
-- Reuses the Flask app from server/enterprise_auth_server.py to preserve all
-  existing authentication, user, sharing, and admin APIs.
-- Registers the updates blueprint from server/updates.py to serve
-  GET /api/app/version used by the desktop AutoUpdater.
-
-Run:
-python server/main.py  (defaults to host=0.0.0.0, port=5000)
-
-Environment:
-- PORT: override the port
-- HOST: override the host
-"""
-from __future__ import annotations
-
-import os
-import sys
 
 # Ensure server package import works when running from project root
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
